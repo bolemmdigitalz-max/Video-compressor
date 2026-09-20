@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Compress images and videos inside your browser. Files never leave the device — no upload, no account, no server-side processing."
+    />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#060b16" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Compressly — compress images and videos on this device</title>
+    <script>
+      // Applied before first paint so the theme never flashes.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('compressly.theme')
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+          var dark = stored ? stored === 'dark' : !prefersLight
+          var root = document.documentElement
+          root.classList.toggle('dark', dark)
+          var meta = document.querySelector('meta[name="theme-color"]:not([media*="dark"])')
+          if (meta) meta.setAttribute('content', dark ? '#060b16' : '#ffffff')
+        } catch (e) {
+          /* storage blocked — fall back to the dark class already on <html> */
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

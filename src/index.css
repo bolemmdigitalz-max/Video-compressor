@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Palette: white and blue only. Every hue below is a step on the same blue ramp.
+  Red is reserved for destructive actions and load failures so it stays meaningful.
+*/
+@layer base {
+  :root {
+    --c-bg: 255 255 255;
+    --c-surface: 246 249 253;
+    --c-surface-2: 238 244 252;
+    --c-surface-3: 228 237 249;
+    --c-line: 221 232 246;
+    --c-line-strong: 190 210 238;
+    --c-ink: 8 22 48;
+    --c-ink-2: 58 82 118;
+    --c-ink-3: 103 128 163;
+    --c-accent: 29 78 216;
+    --c-accent-hover: 26 63 175;
+    --c-accent-soft: 226 236 254;
+    --c-accent-ink: 255 255 255;
+    --c-gain: 21 101 149;
+    --c-loss: 176 58 46;
+    --c-shadow: 24 54 104;
+    color-scheme: light;
+  }
+
+  .dark {
+    --c-bg: 6 11 22;
+    --c-surface: 12 21 36;
+    --c-surface-2: 18 30 51;
+    --c-surface-3: 26 42 68;
+    --c-line: 28 44 70;
+    --c-line-strong: 55 82 126;
+    --c-ink: 234 242 252;
+    --c-ink-2: 160 182 211;
+    --c-ink-3: 118 143 178;
+    --c-accent: 96 165 250;
+    --c-accent-hover: 147 197 253;
+    --c-accent-soft: 20 36 61;
+    --c-accent-ink: 4 12 28;
+    --c-gain: 103 190 224;
+    --c-loss: 236 122 108;
+    --c-shadow: 0 0 0;
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  /* Tabular figures keep byte counts and percentages from jittering while encoding. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-ink;
+    letter-spacing: -0.018em;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-bg;
+  }
+
+  ::selection {
+    @apply bg-accent-soft text-ink;
+  }
+
+  input[type='range'] {
+    @apply h-6 w-full cursor-pointer appearance-none bg-transparent;
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    @apply h-1.5 rounded-full bg-surface-3;
+  }
+
+  input[type='range']::-moz-range-track {
+    @apply h-1.5 rounded-full bg-surface-3;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    @apply -mt-[5px] h-4 w-4 appearance-none rounded-full border-2 border-accent bg-bg shadow-card transition-transform;
+  }
+
+  input[type='range']::-moz-range-thumb {
+    @apply h-4 w-4 rounded-full border-2 border-accent bg-bg shadow-card;
+  }
+
+  input[type='range']:focus-visible::-webkit-slider-thumb {
+    @apply ring-2 ring-accent ring-offset-2 ring-offset-bg;
+  }
+
+  input[type='range']:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  /* Hide the number spinner; the value is always printed next to the field. */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .surface {
+    @apply rounded-xl border border-line bg-surface shadow-card;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-[13px] font-medium text-ink-2;
+  }
+
+  .field-hint {
+    @apply mt-1 text-2xs text-ink-3;
+  }
+
+  .control {
+    @apply h-10 w-full rounded-lg border border-line bg-bg px-3 text-sm text-ink
+      transition-colors placeholder:text-ink-3 focus:border-accent focus:outline-none
+      focus:ring-2 focus:ring-accent/30 disabled:cursor-not-allowed disabled:opacity-55;
+  }
+
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 text-sm
+      font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-accent text-accent-ink hover:bg-accent-hover;
+  }
+
+  .btn-secondary {
+    @apply btn border border-line-strong bg-bg text-ink hover:bg-surface-2;
+  }
+
+  .btn-ghost {
+    @apply btn text-ink-2 hover:bg-surface-2 hover:text-ink;
+  }
+
+  .btn-sm {
+    @apply min-h-9 px-3 text-[13px];
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2
+      px-2.5 py-1 text-2xs font-medium text-ink-2;
+  }
+
+  .sr-only-focusable:not(:focus) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* The active-progress bar gets a moving stripe; static bars do not animate. */
+.progress-active {
+  background-image: linear-gradient(
+    115deg,
+    rgb(var(--c-accent-ink) / 0.28) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgb(var(--c-accent-ink) / 0.28) 50%,
+    rgb(var(--c-accent-ink) / 0.28) 75%,
+    transparent 75%
+  );
+  background-size: 28px 28px;
+}
